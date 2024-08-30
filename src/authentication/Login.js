@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import heroImage from './images/pp6_hero.jpg';
+import heroImage from '../components/images/pp6_hero.jpg';
 
 function Login({ setUser }) {
   const [email, setEmail] = useState('');
@@ -23,7 +23,7 @@ function Login({ setUser }) {
     e.preventDefault();
 
     axios.post(
-      'http://127.0.0.1:8000/api/login',
+      'http://127.0.0.1:8000/api/loginCustomer',
       { email, password },
       {
         headers: {

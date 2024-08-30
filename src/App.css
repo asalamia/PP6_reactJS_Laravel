@@ -1,17 +1,22 @@
-
-
 body {
-  background-color: #121212;
+  background-color: #212529; /* Dark background for the entire body */
 }
 
-h2, p, a {
-  color: #ffffff;
+.container {
+  background-color: #343a40; /* Darker background for the container */
+  padding: 20px;
+  border-radius: 8px;
 }
 
-a {
-  text-decoration: none;
+.btn-light {
+  background-color: #f8f9fa; /* Light button for contrast */
+  color: #212529;
 }
 
-a:hover {
-  color: #ffa726;
+.modal-content {
+  border-radius: 0; /* Remove rounded corners from modal content */
+}
+
+.modal-header .close {
+  color: #f8f9fa; /* White color for close button */
 }
