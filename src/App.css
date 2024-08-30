@@ -1,0 +1,17 @@
+
+
+body {
+  background-color: #121212;
+}
+
+h2, p, a {
+  color: #ffffff;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  color: #ffa726;
+}
