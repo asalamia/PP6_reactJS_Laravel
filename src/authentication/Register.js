@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom'; // Import Link
 import 'bootstrap/dist/css/bootstrap.min.css';
-import heroImage from '../components/images/pp6_hero.jpg';
+import heroImage from './images/pp6_hero.jpg'; // Import your hero image
 import axios from 'axios'; // Import Axios
 
 function Register() {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [contactNumber, setContactNumber] = useState('');
-  const [address, setAddress] = useState('');
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
@@ -16,7 +13,7 @@ function Register() {
   const navigate = useNavigate();
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Validate passwords match
@@ -25,32 +22,29 @@ function Register() {
       return;
     }
 
-    axios.post('http://127.0.0.1:8000/api/registerCustomer', {
-      first_name: firstName,
-      last_name: lastName,
-      contact_number: contactNumber,
-      address: address,
-      email,
-      password,
-      password_confirmation: passwordConfirmation,
-    }, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-    })
-    .then((response) => {
+    try {
+      const response = await axios.post('http://127.0.0.1:8000/api/register', { // Adjusted to the correct route
+        name,
+        email,
+        password,
+        password_confirmation: passwordConfirmation,
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+      });
+
       if (response.data.success) {
         setMessage('Registration successful! Redirecting...');
         setTimeout(() => navigate('/login'), 2000); // Redirect to login page after 2 seconds
       } else {
         setMessage(response.data.message || 'Registration failed. Please try again.');
       }
-    })
-    .catch((error) => {
+    } catch (error) {
       console.error('Error:', error);
       setMessage(`An error occurred: ${error.response?.data?.message || error.message}`);
-    });
+    }
   };
 
   return (
@@ -72,46 +66,13 @@ function Register() {
           <h1 className="text-white">Register</h1>
           <form onSubmit={handleSubmit} className="bg-dark p-4 rounded shadow text-white">
             <div className="form-group">
-              <label htmlFor="first_name">First Name</label>
+              <label htmlFor="name">Name</label>
               <input
                 type="text"
                 className="form-control"
-                id="first_name"
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-                required
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="last_name">Last Name</label>
-              <input
-                type="text"
-                className="form-control"
-                id="last_name"
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-                required
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="contact_number">Contact Number</label>
-              <input
-                type="text"
-                className="form-control"
-                id="contact_number"
-                value={contactNumber}
-                onChange={(e) => setContactNumber(e.target.value)}
-                required
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="address">Address</label>
-              <input
-                type="text"
-                className="form-control"
-                id="address"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
+                id="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 required
               />
             </div>
@@ -151,9 +112,10 @@ function Register() {
             <button type="submit" className="btn btn-light mt-3">Register</button>
             {message && <p className="mt-2">{message}</p>}
             <p className="text-white mt-3">
-              Already registered? <Link to="/login" className="text-info">Login here</Link>
-            </p>
+            Already registered? <Link to="/login" className="text-info">Login here</Link>
+          </p> {/* Link to login page */}
           </form>
+          
         </div>
       </div>
     </div>
